@@ -67,7 +67,7 @@ euclideanProjectionOfLines =
                 Hyperbolic.projectFromEuclideanSpace
             )
         |> List.filterMap Hyperbolic.lineFromLineSegment
-        |> List.concatMap (Hyperbolic.pointsAlongLine 1000)
+        |> List.concatMap (Hyperbolic.pointsAlongLine 100)
         |> List.map Hyperbolic.projectOntoPoincareDisc
         |> View.Canvas.hyperbolic
 
@@ -80,7 +80,7 @@ beltramiLines =
                 Hyperbolic.projectFromEuclideanSpace
             )
         |> List.filterMap Hyperbolic.lineFromLineSegment
-        |> List.concatMap (Hyperbolic.pointsAlongLine 1000)
+        |> List.concatMap (Hyperbolic.pointsAlongLine 100)
         |> List.map Hyperbolic.projectOntoBeltramiKleinDisc
         |> View.Canvas.hyperbolic
 
@@ -89,7 +89,7 @@ rosette : List ( Float, Float )
 rosette =
     let
         pointsPerCircle =
-            1000
+            200
 
         circleSize =
             1
@@ -204,7 +204,7 @@ grid
         )
     --convert line segments into lines
     |> List.filterMap Hyperbolic.lineFromLineSegment 
-    |> List.concatMap (Hyperbolic.pointsAlongLine 1000)
+    |> List.concatMap (Hyperbolic.pointsAlongLine 100)
     |> List.map Hyperbolic.projectOntoPoincareDisc
 ```
 
@@ -219,7 +219,7 @@ We can see very nicely how the lines are bend inwards. We can actually fix this 
                 Hyperbolic.projectFromEuclideanSpace
             )
         |> List.filterMap Hyperbolic.lineFromLineSegment
-        |> List.concatMap (Hyperbolic.pointsAlongLine 1000)
+        |> List.concatMap (Hyperbolic.pointsAlongLine 100)
         --project onto the Beltrami-Klein Disc
         |> List.map Hyperbolic.projectOntoBeltramiKleinDisc
         |> hyperbolicToCanvas
@@ -244,7 +244,7 @@ rosette : List ( Float, Float )
 rosette =
     let
         pointsPerCircle =
-            1000
+            200
 
         circleSize =
             1
