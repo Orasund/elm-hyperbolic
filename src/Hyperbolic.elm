@@ -291,7 +291,7 @@ intersectLines l1 l2 =
         ( BeltramiCoord p3, BeltramiCoord p4 ) =
             l2 |> Tuple.mapBoth unsafeFromIdealPoint unsafeFromIdealPoint
     in
-    Internal.lineIntersection (Internal.lineToGeneralForm ( p1, p2 ) |> Debug.log "g1") (Internal.lineToGeneralForm ( p3, p4 ) |> Debug.log "g2")
+    Internal.lineIntersection (Internal.lineToGeneralForm ( p1, p2 )) (Internal.lineToGeneralForm ( p3, p4 ))
         |> Maybe.map BeltramiCoord
 
 

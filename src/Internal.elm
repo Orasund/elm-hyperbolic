@@ -147,7 +147,6 @@ lineIntersection equ1 equ2 =
                 * equ2.y
                 - equ1.y
                 * equ2.x
-                |> Debug.log "det"
     in
     if isZero det then
         Nothing
