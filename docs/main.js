@@ -4783,10 +4783,10 @@ var $dtwrks$elm_book$ElmBook$Custom$customBook = F2(
 			{chapterOptions: $dtwrks$elm_book$ElmBook$Internal$Chapter$defaultOptions, componentOptions: $dtwrks$elm_book$ElmBook$Internal$ComponentOptions$defaultOptions, statefulOptions: $dtwrks$elm_book$ElmBook$Internal$StatefulOptions$defaultOptions, themeOptions: $dtwrks$elm_book$ElmBook$Internal$ThemeOptions$defaultTheme, title: title, toHtml: toHtml});
 	});
 var $dtwrks$elm_book$ElmBook$book = $dtwrks$elm_book$ElmBook$Custom$customBook($elm$core$Basics$identity);
-var $elm$core$Basics$add = _Basics_add;
 var $author$project$Hyperbolic$PoincareVector = function (a) {
 	return {$: 'PoincareVector', a: a};
 };
+var $elm$core$Basics$add = _Basics_add;
 var $elm$core$Basics$fdiv = _Basics_fdiv;
 var $elm$core$Basics$mul = _Basics_mul;
 var $author$project$Internal$innerProduct = F2(
@@ -4950,25 +4950,6 @@ var $elm$core$List$concatMap = F2(
 		return $elm$core$List$concat(
 			A2($elm$core$List$map, f, list));
 	});
-var $elm$core$Basics$e = _Basics_e;
-var $elm$core$Basics$logBase = F2(
-	function (base, number) {
-		return _Basics_log(number) / _Basics_log(base);
-	});
-var $author$project$Internal$ln = $elm$core$Basics$logBase($elm$core$Basics$e);
-var $elm$core$Basics$sqrt = _Basics_sqrt;
-var $author$project$Internal$arcosh = function (x) {
-	return $author$project$Internal$ln(
-		x + $elm$core$Basics$sqrt((x * x) - 1));
-};
-var $elm$core$Basics$cos = _Basics_cos;
-var $elm$core$Basics$pi = _Basics_pi;
-var $elm$core$Basics$sin = _Basics_sin;
-var $elm$core$Basics$toFloat = _Basics_toFloat;
-var $author$project$Hyperbolic$discFillingPolygon = function (args) {
-	return 2 * $author$project$Internal$arcosh(
-		$elm$core$Basics$cos($elm$core$Basics$pi / args.vertices) / $elm$core$Basics$sin($elm$core$Basics$pi / args.polygonsAroundAPoint));
-};
 var $author$project$Hyperbolic$BeltramiCoord = function (a) {
 	return {$: 'BeltramiCoord', a: a};
 };
@@ -4980,10 +4961,13 @@ var $author$project$Hyperbolic$fromPoincareVector = function (_v0) {
 			2 / (1 + A2($author$project$Internal$innerProduct, u, u)),
 			u));
 };
+var $elm$core$Basics$cos = _Basics_cos;
 var $elm$core$Tuple$pair = F2(
 	function (a, b) {
 		return _Utils_Tuple2(a, b);
 	});
+var $elm$core$Basics$sin = _Basics_sin;
+var $elm$core$Basics$e = _Basics_e;
 var $elm$core$Basics$pow = _Basics_pow;
 var $author$project$Internal$tanh = function (x) {
 	return (A2($elm$core$Basics$pow, $elm$core$Basics$e, 2 * x) - 1) / (A2($elm$core$Basics$pow, $elm$core$Basics$e, 2 * x) + 1);
@@ -5221,6 +5205,11 @@ var $elm$core$Array$Array_elm_builtin = F4(
 	});
 var $elm$core$Elm$JsArray$empty = _JsArray_empty;
 var $elm$core$Basics$ceiling = _Basics_ceiling;
+var $elm$core$Basics$logBase = F2(
+	function (base, number) {
+		return _Basics_log(number) / _Basics_log(base);
+	});
+var $elm$core$Basics$toFloat = _Basics_toFloat;
 var $elm$core$Array$shiftStep = $elm$core$Basics$ceiling(
 	A2($elm$core$Basics$logBase, 2, $elm$core$Array$branchFactor));
 var $elm$core$Array$empty = A4($elm$core$Array$Array_elm_builtin, 0, $elm$core$Array$shiftStep, $elm$core$Elm$JsArray$empty, $elm$core$Elm$JsArray$empty);
@@ -5700,6 +5689,7 @@ var $joakin$elm_canvas$Canvas$Internal$CustomElementJsonApi$arc = F6(
 					$elm$json$Json$Encode$bool(anticlockwise)
 				]));
 	});
+var $elm$core$Basics$pi = _Basics_pi;
 var $joakin$elm_canvas$Canvas$Internal$CustomElementJsonApi$circle = F3(
 	function (x, y, r) {
 		return A6($joakin$elm_canvas$Canvas$Internal$CustomElementJsonApi$arc, x, y, r, 0, 2 * $elm$core$Basics$pi, false);
@@ -6434,20 +6424,6 @@ var $author$project$View$Canvas$hyperbolic = function (list) {
 						]))
 				])));
 };
-var $elm$core$Basics$modBy = _Basics_modBy;
-var $elm$core$Basics$negate = function (n) {
-	return -n;
-};
-var $author$project$Internal$negate = function (_v0) {
-	var x = _v0.a;
-	var y = _v0.b;
-	return _Utils_Tuple2(-x, -y);
-};
-var $author$project$Hyperbolic$negate = function (_v0) {
-	var v = _v0.a;
-	return $author$project$Hyperbolic$PoincareVector(
-		$author$project$Internal$negate(v));
-};
 var $author$project$Hyperbolic$origin = $author$project$Hyperbolic$BeltramiCoord(
 	_Utils_Tuple2(0, 0));
 var $author$project$Hyperbolic$pointsAlongLineSegment = F2(
@@ -6475,6 +6451,7 @@ var $author$project$Hyperbolic$pointsAlongLineSegment = F2(
 					},
 					A2($elm$core$List$range, 0, n))));
 	});
+var $elm$core$Basics$sqrt = _Basics_sqrt;
 var $author$project$Hyperbolic$toPoincareVector = function (_v0) {
 	var s = _v0.a;
 	var l = 1 + $elm$core$Basics$sqrt(
@@ -6489,6 +6466,48 @@ var $author$project$Hyperbolic$projectOntoPoincareDisc = function (p) {
 	}(
 		$author$project$Hyperbolic$toPoincareVector(p));
 };
+var $author$project$Chapter$Gyrovectors$addition = function () {
+	var p2 = $author$project$Hyperbolic$toPoincareVector(
+		$author$project$Hyperbolic$fromPolarCoords(
+			{angle: (2 * $elm$core$Basics$pi) / 4, radius: 1}));
+	var p1 = $author$project$Hyperbolic$toPoincareVector(
+		$author$project$Hyperbolic$fromPolarCoords(
+			{angle: 0, radius: 1}));
+	var origin = $author$project$Hyperbolic$toPoincareVector($author$project$Hyperbolic$origin);
+	return $author$project$View$Canvas$hyperbolic(
+		A2(
+			$elm$core$List$map,
+			$author$project$Hyperbolic$projectOntoPoincareDisc,
+			A2(
+				$elm$core$List$concatMap,
+				$author$project$Hyperbolic$pointsAlongLineSegment(100),
+				A2(
+					$elm$core$List$map,
+					A2($elm$core$Tuple$mapBoth, $author$project$Hyperbolic$fromPoincareVector, $author$project$Hyperbolic$fromPoincareVector),
+					_List_fromArray(
+						[
+							_Utils_Tuple2(origin, p1),
+							_Utils_Tuple2(origin, p2),
+							_Utils_Tuple2(
+							p1,
+							A2($author$project$Hyperbolic$add, p2, p1)),
+							_Utils_Tuple2(
+							p2,
+							A2($author$project$Hyperbolic$add, p1, p2))
+						])))));
+}();
+var $author$project$Internal$ln = $elm$core$Basics$logBase($elm$core$Basics$e);
+var $author$project$Internal$arcosh = function (x) {
+	return $author$project$Internal$ln(
+		x + $elm$core$Basics$sqrt((x * x) - 1));
+};
+var $author$project$Hyperbolic$discFillingPolygon = function (args) {
+	return 2 * $author$project$Internal$arcosh(
+		$elm$core$Basics$cos($elm$core$Basics$pi / args.vertices) / $elm$core$Basics$sin($elm$core$Basics$pi / args.polygonsAroundAPoint));
+};
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
 var $author$project$Hyperbolic$rotateClockwise = F2(
 	function (amount, _v0) {
 		var _v1 = _v0.a;
@@ -6499,6 +6518,77 @@ var $author$project$Hyperbolic$rotateClockwise = F2(
 				(x * $elm$core$Basics$cos(amount)) - (y * $elm$core$Basics$sin(amount)),
 				(x * $elm$core$Basics$sin(amount)) + (y * $elm$core$Basics$cos(amount))));
 	});
+var $author$project$Internal$negate = function (_v0) {
+	var x = _v0.a;
+	var y = _v0.b;
+	return _Utils_Tuple2(-x, -y);
+};
+var $author$project$Hyperbolic$negate = function (_v0) {
+	var v = _v0.a;
+	return $author$project$Hyperbolic$PoincareVector(
+		$author$project$Internal$negate(v));
+};
+var $author$project$Hyperbolic$vectorTo = F2(
+	function (p2, p1) {
+		return A2(
+			$author$project$Hyperbolic$add,
+			p1,
+			$author$project$Hyperbolic$negate(p2));
+	});
+var $author$project$Chapter$Gyrovectors$additionMeeting = function () {
+	var polygonsAroundAPoint = 5;
+	var origin = $author$project$Hyperbolic$toPoincareVector($author$project$Hyperbolic$origin);
+	var moveRight = F2(
+		function (p, from) {
+			return A2(
+				$author$project$Hyperbolic$add,
+				A2(
+					$author$project$Hyperbolic$rotateClockwise,
+					(2 * $elm$core$Basics$pi) / polygonsAroundAPoint,
+					A2($author$project$Hyperbolic$vectorTo, from, p)),
+				p);
+		});
+	var moveLeft = F2(
+		function (p, from) {
+			return A2(
+				$author$project$Hyperbolic$add,
+				A2(
+					$author$project$Hyperbolic$rotateClockwise,
+					-((2 * $elm$core$Basics$pi) / polygonsAroundAPoint),
+					A2($author$project$Hyperbolic$vectorTo, from, p)),
+				p);
+		});
+	var length = $author$project$Hyperbolic$discFillingPolygon(
+		{polygonsAroundAPoint: polygonsAroundAPoint, vertices: 4});
+	var p0 = $author$project$Hyperbolic$toPoincareVector(
+		$author$project$Hyperbolic$fromPolarCoords(
+			{angle: 0, radius: length}));
+	var p1 = A2(moveLeft, p0, origin);
+	var p2 = A2(moveRight, p0, origin);
+	return $author$project$View$Canvas$hyperbolic(
+		A2(
+			$elm$core$List$map,
+			$author$project$Hyperbolic$projectOntoPoincareDisc,
+			A2(
+				$elm$core$List$concatMap,
+				$author$project$Hyperbolic$pointsAlongLineSegment(100),
+				A2(
+					$elm$core$List$map,
+					A2($elm$core$Tuple$mapBoth, $author$project$Hyperbolic$fromPoincareVector, $author$project$Hyperbolic$fromPoincareVector),
+					_List_fromArray(
+						[
+							_Utils_Tuple2(origin, p0),
+							_Utils_Tuple2(p0, p1),
+							_Utils_Tuple2(p0, p2),
+							_Utils_Tuple2(
+							p1,
+							A2(moveRight, p1, p0)),
+							_Utils_Tuple2(
+							p2,
+							A2(moveLeft, p2, p0))
+						])))));
+}();
+var $elm$core$Basics$modBy = _Basics_modBy;
 var $author$project$Chapter$Gyrovectors$regularTiling = F3(
 	function (vertices, polygonsAroundAPoint, amount) {
 		var radius = $author$project$Hyperbolic$discFillingPolygon(
@@ -6519,10 +6609,7 @@ var $author$project$Chapter$Gyrovectors$regularTiling = F3(
 							A2(
 								$author$project$Hyperbolic$rotateClockwise,
 								-angle,
-								A2(
-									$author$project$Hyperbolic$add,
-									fromP,
-									$author$project$Hyperbolic$negate(p))),
+								A2($author$project$Hyperbolic$vectorTo, p, fromP)),
 							p);
 					},
 					A2(
@@ -6654,6 +6741,61 @@ var $dtwrks$elm_book$ElmBook$Chapter$render = F2(
 				}));
 	});
 var $author$project$Chapter$Gyrovectors$tiling = A3($author$project$Chapter$Gyrovectors$regularTiling, 3, 7, 0);
+var $author$project$Chapter$Gyrovectors$inCircles = function (radius) {
+	var p0 = $author$project$Hyperbolic$toPoincareVector(
+		$author$project$Hyperbolic$fromPolarCoords(
+			{angle: 0, radius: radius}));
+	var origin = $author$project$Hyperbolic$toPoincareVector($author$project$Hyperbolic$origin);
+	var moveRight = F2(
+		function (p, from) {
+			return A2(
+				$author$project$Hyperbolic$add,
+				A2(
+					$author$project$Hyperbolic$rotateClockwise,
+					(2 * $elm$core$Basics$pi) / 4,
+					A2($author$project$Hyperbolic$vectorTo, p, from)),
+				p);
+		});
+	var p1 = A2(moveRight, p0, origin);
+	var p2 = A2(moveRight, p1, p0);
+	var p3 = A2(moveRight, p2, p1);
+	var p4 = A2(moveRight, p3, p2);
+	var p5 = A2(moveRight, p4, p3);
+	return $author$project$View$Canvas$hyperbolic(
+		A2(
+			$elm$core$List$map,
+			$author$project$Hyperbolic$projectOntoPoincareDisc,
+			A2(
+				$elm$core$List$concatMap,
+				$author$project$Hyperbolic$pointsAlongLineSegment(100),
+				A2(
+					$elm$core$List$map,
+					A2($elm$core$Tuple$mapBoth, $author$project$Hyperbolic$fromPoincareVector, $author$project$Hyperbolic$fromPoincareVector),
+					_List_fromArray(
+						[
+							_Utils_Tuple2(origin, p0),
+							_Utils_Tuple2(p0, p1),
+							_Utils_Tuple2(p1, p2),
+							_Utils_Tuple2(p2, p3),
+							_Utils_Tuple2(p3, p4),
+							_Utils_Tuple2(p4, p5)
+						])))));
+};
+var $author$project$Chapter$Gyrovectors$turningRight = A2(
+	$Orasund$elm_layout$Layout$row,
+	_List_fromArray(
+		[$Orasund$elm_layout$Layout$spaceBetween]),
+	_List_fromArray(
+		[
+			$author$project$Chapter$Gyrovectors$inCircles(0.75),
+			$author$project$Chapter$Gyrovectors$inCircles(
+			$author$project$Hyperbolic$discFillingPolygon(
+				{polygonsAroundAPoint: 4, vertices: 5})),
+			$author$project$Chapter$Gyrovectors$inCircles(1.2),
+			$author$project$Chapter$Gyrovectors$inCircles(
+			$author$project$Hyperbolic$discFillingPolygon(
+				{polygonsAroundAPoint: 4, vertices: 6}))
+		]));
 var $dtwrks$elm_book$ElmBook$Internal$Chapter$ChapterComponentViewStateless = function (a) {
 	return {$: 'ChapterComponentViewStateless', a: a};
 };
@@ -6679,15 +6821,18 @@ var $dtwrks$elm_book$ElmBook$Chapter$withComponentList = F2(
 	});
 var $author$project$Chapter$Gyrovectors$chapter = A2(
 	$dtwrks$elm_book$ElmBook$Chapter$render,
-	'\nIn the last chapter we noticed, that it\'s not that easy to create a regular tiling of the hyperbolic disc.\n\nUp until this point we shied away from using angles. But now we will introduce a secret weapon that will not only allow us to use angle, but also will create any regular tiling (where the origin is a vertex).\n\nThe idea is to construct triangles by rotating a vector around a point. But of course we can\'t just regular vectors (that would be too easy). Instead we will use gyrovectors.\n\nYou don\'t have to know much about gyrovectors, but if you want to go ahead and do you own research, gyrovectors is probably the thing you want to investigate.\n\nFor now we only need to know that we use Gyrovectors for the Poincaré Hyperbolic Disc Model (as it preserves angles). We could also use gyrovectors for the Beltrami-Klein Disc Model and the elm package also includes the required addition to do so. \n\nAlso another thing to keep in mind is that depending on the size of the triangles, we can fit different amount of the around a point.\n\nThat\'s why we need to calculate the length of a size depending on the amount of vertices (3 for a triangle) and on how many polygons should fit around the point.\n\nIf you look up tilings, you will usually find a Schläfli symbol {p,q}. In that case p = vertices, q = polygonsAroundAPoint.\n```\ntiling =\n    let\n        vertices =\n            3\n\n        polygonsAroundAPoint =\n            7\n\n        radius =\n            Hyperbolic.discFillingPolygon\n                { vertices = vertices\n                , polygonsAroundAPoint = polygonsAroundAPoint\n                }\n\n        init =\n            List.range 0 polygonsAroundAPoint\n                |> List.map\n                    (\\i ->\n                        ( Hyperbolic.fromPolarCoords\n                            { radius = radius\n                            , angle =\n                                2\n                                    * pi\n                                    * (1 + i |> modBy polygonsAroundAPoint |> toFloat)\n                                    / toFloat polygonsAroundAPoint\n                            }\n                            |> Hyperbolic.toPoincareVector\n                        , Hyperbolic.origin\n                            |> Hyperbolic.toPoincareVector\n                        )\n                    )\n\n        iterate ( p, fromP ) =\n            List.range 1 (polygonsAroundAPoint - 1)\n                |> List.map toFloat\n                |> List.map (\\i -> i * 2 * pi / toFloat polygonsAroundAPoint)\n                |> List.map\n                    (\u0007ngle ->\n                        Hyperbolic.add\n                            (p\n                                |> Hyperbolic.negate\n                                |> Hyperbolic.add fromP\n                                |> Hyperbolic.rotateClockwise -angle\n                            )\n                            p\n                    )\n                |> List.map\n                    (\\newP ->\n                        ( newP\n                        , p\n                        )\n                    )\n    in\n    List.range 0 0\n        |> List.foldl\n            (\\_ ( list, output ) ->\n                ( list |> List.concatMap iterate, list ++ output )\n            )\n            ( init, [] )\n        |> (\\( a, b ) -> a ++ b)\n        |> List.map (Tuple.mapBoth Hyperbolic.fromPoincareVector Hyperbolic.fromPoincareVector)\n        |> List.concatMap (Hyperbolic.pointsAlongLineSegment 100)\n        |> List.map Hyperbolic.projectOntoPoincareDisc\n```\n<component with-label="Regular tiling of triangles"/>\n\nSadly i do not have the time to explain exactly what is happening here, but just note, that this construction **only works if we center the initial polygons around the origin.**\n\n<component with-label="Alternative tilings"/>\n',
+	'\nIn the last chapter we noticed, that it\'s not that easy to create a regular tiling of the hyperbolic disc.\n\nUp until this point we shied away from using angles. But now we will introduce a secret weapon that will not only allow us to use angles, but also will create any regular tiling (where the origin is a vertex): Gyrovectors.\n\nWe will use Gyrovectors for the Poincaré Hyperbolic Disc Model (as it preserves angles). We could also use gyrovectors for the Beltrami-Klein Disc Model and the elm package also includes the required addition to do so. \n\n\n    let\n        p1 =\n            Hyperbolic.fromPolarCoords\n                { radius = 1\n                , angle = 0\n                }\n                |> Hyperbolic.toPoincareVector\n\n        p2 =\n            Hyperbolic.fromPolarCoords\n                { radius = 1\n                , angle = 2 * pi / 4\n                }\n                |> Hyperbolic.toPoincareVector\n\n        origin =\n            Hyperbolic.origin |> Hyperbolic.toPoincareVector\n    in\n    [ ( origin, p1 )\n    , ( origin, p2 )\n    , ( p1, p1 |> Hyperbolic.add p2 )\n    , ( p2, p2 |> Hyperbolic.add p1 )\n    ]\n        |> List.map\n            (Tuple.mapBoth Hyperbolic.fromPoincareVector\n                Hyperbolic.fromPoincareVector\n            )\n        |> List.concatMap (Hyperbolic.pointsAlongLineSegment 100)\n        |> List.map Hyperbolic.projectOntoPoincareDisc\n\n\n<component with-label="Adding to Gyrovectors"/>\n\nGyrovectors are like regular vectors with the catch that the order in which you add vectors matters.\nIn the example above you see that we move right and down in different orders.\nNormally, you would expect that the resulting point matches, but here it does not.\n\n<component with-label="Turning left"/>\n\nSimilarly, turning left four times will not end up in the same spot as you started. However, if we choose the length correctly we end up with a pentagon or actually any regular polygon with >4 sides.\n\nLuckily, we have a function that can calculate the exact size that we need. If you look up tilings, you will usually find a Schläfli symbol {p,q}. In that case p = vertices, q = polygonsAroundAPoint.\n\n    let\n        vertices =\n            3\n\n        polygonsAroundAPoint =\n            7\n\n        radius =\n            Hyperbolic.discFillingPolygon\n                { vertices = vertices\n                , polygonsAroundAPoint = polygonsAroundAPoint\n                }\n\n        init =\n            List.range 0 polygonsAroundAPoint\n                |> List.map\n                    (\\i ->\n                        ( Hyperbolic.fromPolarCoords\n                            { radius = radius\n                            , angle =\n                                2\n                                    * pi\n                                    * (1 + i |> modBy polygonsAroundAPoint |> toFloat)\n                                    / toFloat polygonsAroundAPoint\n                            }\n                            |> Hyperbolic.toPoincareVector\n                        , Hyperbolic.origin\n                            |> Hyperbolic.toPoincareVector\n                        )\n                    )\n\n        iterate ( p, fromP ) =\n            List.range 1 (polygonsAroundAPoint - 1)\n                |> List.map toFloat\n                |> List.map (\\i -> i * 2 * pi / toFloat polygonsAroundAPoint)\n                |> List.map\n                    (\u0007ngle ->\n                        Hyperbolic.add\n                            (p\n                                |> Hyperbolic.negate\n                                |> Hyperbolic.add fromP\n                                |> Hyperbolic.rotateClockwise -angle\n                            )\n                            p\n                    )\n                |> List.map\n                    (\\newP ->\n                        ( newP\n                        , p\n                        )\n                    )\n    in\n    List.range 0 0\n        |> List.foldl\n            (\\_ ( list, output ) ->\n                ( list |> List.concatMap iterate, list ++ output )\n            )\n            ( init, [] )\n        |> (\\( a, b ) -> a ++ b)\n        |> List.map (Tuple.mapBoth Hyperbolic.fromPoincareVector Hyperbolic.fromPoincareVector)\n        |> List.concatMap (Hyperbolic.pointsAlongLineSegment 100)\n        |> List.map Hyperbolic.projectOntoPoincareDisc\n\n<component with-label="Regular tiling of triangles"/>\n\nSadly i do not have the time to explain exactly what is happening here, but just note, that this construction **only works if we center the initial polygons around the origin.**\n\n<component with-label="Alternative tilings"/>\n',
 	A2(
 		$dtwrks$elm_book$ElmBook$Chapter$withComponentList,
 		_List_fromArray(
 			[
 				_Utils_Tuple2('Regular tiling of triangles', $author$project$Chapter$Gyrovectors$tiling),
-				_Utils_Tuple2('Alternative tilings', $author$project$Chapter$Gyrovectors$alternativeTilings)
+				_Utils_Tuple2('Alternative tilings', $author$project$Chapter$Gyrovectors$alternativeTilings),
+				_Utils_Tuple2('Adding to Gyrovectors', $author$project$Chapter$Gyrovectors$addition),
+				_Utils_Tuple2('Turning left', $author$project$Chapter$Gyrovectors$turningRight),
+				_Utils_Tuple2('Rectangle in Hyperbolic space', $author$project$Chapter$Gyrovectors$additionMeeting)
 			]),
-		$dtwrks$elm_book$ElmBook$Chapter$chapter('Working with Gyrovectors')));
+		$dtwrks$elm_book$ElmBook$Chapter$chapter('Gyrovectors and angles')));
 var $elm$core$List$maybeCons = F3(
 	function (f, mx, xs) {
 		var _v0 = f(mx);
@@ -7375,13 +7520,6 @@ var $author$project$Chapter$LineSegments$polygon = function () {
 							},
 							A2($elm$core$List$range, 0, n - 1)))))));
 }();
-var $author$project$Hyperbolic$vectorTo = F2(
-	function (p2, p1) {
-		return A2(
-			$author$project$Hyperbolic$add,
-			p1,
-			$author$project$Hyperbolic$negate(p2));
-	});
 var $author$project$Hyperbolic$reflectBy = F2(
 	function (line, p0) {
 		return A2(

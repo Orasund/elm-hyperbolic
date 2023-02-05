@@ -1,8 +1,5 @@
 module Chapter.HyperbolicModels exposing (..)
 
-import Canvas exposing (Renderable)
-import Canvas.Settings
-import Color
 import ElmBook.Chapter exposing (Chapter)
 import Html exposing (Html)
 import Hyperbolic

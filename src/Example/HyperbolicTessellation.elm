@@ -5,7 +5,7 @@ import Canvas
 import Canvas.Settings
 import Color
 import Html exposing (Html)
-import Hyperbolic exposing (BeltramiCoord, PoincareVector)
+import Hyperbolic exposing (Gyrovector, Point)
 import Internal
 import Svg
 import Svg.Attributes
@@ -17,7 +17,7 @@ sizeOfGrid =
 
 
 type alias Model =
-    { points : List ( PoincareVector, PoincareVector )
+    { points : List ( Gyrovector, Gyrovector )
     , pointsPerLine : Int
     , iter : Int
     , maxIter : Int
@@ -75,7 +75,7 @@ init () =
     )
 
 
-newPoints : ( PoincareVector, PoincareVector ) -> List ( PoincareVector, PoincareVector )
+newPoints : ( Gyrovector, Gyrovector ) -> List ( Gyrovector, Gyrovector )
 newPoints ( p, fromP ) =
     let
         edges =
@@ -185,7 +185,7 @@ viewAsCanvas list =
         |> Canvas.toHtml ( size, size ) []
 
 
-euclideanDistance : BeltramiCoord -> BeltramiCoord -> Float
+euclideanDistance : Point -> Point -> Float
 euclideanDistance p1 p2 =
     Internal.distance
         (Hyperbolic.projectOntoBeltramiKleinDisc p1)

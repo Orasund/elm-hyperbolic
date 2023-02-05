@@ -7,26 +7,26 @@ module Example exposing (..)
 -}
 
 import Expect exposing (Expectation)
-import Hyperbolic exposing (PoincareVector(..))
+import Hyperbolic exposing (Gyrovector(..))
 import Test exposing (..)
 
 
-a : PoincareVector
+a : Gyrovector
 a =
     Hyperbolic.unsafePoincareVectorFromRecord { x = -0.67, y = 0.2 }
 
 
-b : PoincareVector
+b : Gyrovector
 b =
     Hyperbolic.unsafePoincareVectorFromRecord { x = -0.16, y = -0.3 }
 
 
-c : PoincareVector
+c : Gyrovector
 c =
     Hyperbolic.unsafePoincareVectorFromRecord { x = -0.3, y = 0.57950149830724 }
 
 
-equal : PoincareVector -> PoincareVector -> Expectation
+equal : Gyrovector -> Gyrovector -> Expectation
 equal vec1 vec2 =
     let
         eps =

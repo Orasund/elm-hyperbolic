@@ -1,6 +1,41 @@
-module Hyperbolic exposing (..)
+module Hyperbolic exposing
+    ( Point, origin, pointAtInfinity, pointsAreEqual, distanceTo, distanceToOrigin, discFillingPolygon
+    , Line, IdealPoint, HyperIdealPoint, LineSegment, poleOfLine, lineFromIdealPoints, lineSectionTo, lineFromPoints, lineFromLineSegment, midpointOfLine, midpointOfLineSegment, lineFromHyperIdealPointThrough, perpendicularLineThrough, intersectLines, bisectorThrough, reflectBy
+    , Gyrovector, vectorTo, negate, add, length, einsteinVelocityAddition, rotateClockwise, rotatePointClockwise, scaleBy
+    , pointsAlongLine, pointsAlongLineSegment, fromPolarCoords, projectFromEuclideanSpace, projectOntoBeltramiKleinDisc, projectOntoPoincareDisc
+    , unsafeFromAxialCoord, unsafeFromIdealPoint, unsafeFromRecord, unsafeHyperIdealPointToRecord, unsafePoincareVectorFromRecord, unsafePoincareVectorToRecord, unsafeToAxialCoord, unsafeToRecord
+    )
 
-import Html exposing (u)
+{-| Explore the hyperbolic space using this module.
+Checkout [the doc for examples](https://orasund.github.io/elm-hyperbolic).
+
+
+# Points
+
+@docs Point, origin, pointAtInfinity, pointsAreEqual, distanceTo, distanceToOrigin, discFillingPolygon
+
+
+# Lines And Line Segments
+
+@docs Line, IdealPoint, HyperIdealPoint, LineSegment, poleOfLine, lineFromIdealPoints, lineSectionTo, lineFromPoints, lineFromLineSegment, midpointOfLine, midpointOfLineSegment, lineFromHyperIdealPointThrough, perpendicularLineThrough, intersectLines, bisectorThrough, reflectBy
+
+
+# Gyrovectors
+
+@docs Gyrovector, vectorTo, negate, add, length, einsteinVelocityAddition, rotateClockwise, rotatePointClockwise, scaleBy
+
+
+# Convertion
+
+@docs pointsAlongLine, pointsAlongLineSegment, fromPolarCoords, projectFromEuclideanSpace, projectOntoBeltramiKleinDisc, projectOntoPoincareDisc
+
+
+# Advanced
+
+@docs unsafeFromAxialCoord, unsafeFromIdealPoint, unsafeFromRecord, unsafeHyperIdealPointToRecord, unsafePoincareVectorFromRecord, unsafePoincareVectorToRecord, unsafeToAxialCoord, unsafeToRecord
+
+-}
+
 import Internal exposing (artanh, normalVector, tanh)
 
 
@@ -11,12 +46,8 @@ Ideal points have Beltrami coordinates with length 1.
 Hyper ideal points have Beltrami coordinates with length > 1.
 
 -}
-type BeltramiCoord
+type Point
     = BeltramiCoord ( Float, Float )
-
-
-type AxialCoord
-    = AxialCoord ( Float, Float )
 
 
 {-| An [ideal point](https://en.wikipedia.org/wiki/Ideal_point) is a point at infinity and can be represented by an angle
@@ -37,38 +68,42 @@ type alias Line =
     ( IdealPoint, IdealPoint )
 
 
+{-| A line segment is defined by two points
+-}
 type alias LineSegment =
-    ( BeltramiCoord, BeltramiCoord )
-
-
-type alias Vector =
-    { values : BeltramiCoord }
+    ( Point, Point )
 
 
 {-| Gyrovector in Poincare-Model
 -}
-type PoincareVector
+type Gyrovector
     = PoincareVector ( Float, Float )
 
 
+{-| An ideal point is a point at infinity, uniquely defined by an angle.
+-}
 pointAtInfinity : Float -> IdealPoint
 pointAtInfinity angle =
     IdealPoint angle
 
 
-origin : BeltramiCoord
+{-| The origin is the point in the center.
+-}
+origin : Point
 origin =
     BeltramiCoord ( 0, 0 )
 
 
-pointsAreEqual : BeltramiCoord -> BeltramiCoord -> Bool
+{-| Returns if two point can be considered equal.
+-}
+pointsAreEqual : Point -> Point -> Bool
 pointsAreEqual (BeltramiCoord ( x1, y1 )) (BeltramiCoord ( x2, y2 )) =
     Internal.equal x1 x2 && Internal.equal y1 y2
 
 
-{-| Beltrami-Klein distance function
+{-| Get the distance between two points
 -}
-distanceTo : BeltramiCoord -> BeltramiCoord -> Float
+distanceTo : Point -> Point -> Float
 distanceTo (BeltramiCoord u) (BeltramiCoord v) =
     --https://en.wikipedia.org/wiki/Beltrami%E2%80%93Klein_model
     case
@@ -94,7 +129,9 @@ distanceTo (BeltramiCoord u) (BeltramiCoord v) =
             0
 
 
-distanceToOrigin : BeltramiCoord -> Float
+{-| Distance to the origin
+-}
+distanceToOrigin : Point -> Float
 distanceToOrigin =
     distanceTo origin
 
@@ -134,12 +171,21 @@ lineFromIdealPoints =
     Tuple.pair
 
 
-lineSectionTo : BeltramiCoord -> BeltramiCoord -> LineSegment
+{-| Constructs a line segment to a point
+
+    lineSectionTo : BeltramiPoint -> BeltramiPoint -> LineSegment
+    lineSectionTo =
+        Tuple.pair
+
+-}
+lineSectionTo : Point -> Point -> LineSegment
 lineSectionTo =
     Tuple.pair
 
 
-lineFromPoints : BeltramiCoord -> BeltramiCoord -> Maybe Line
+{-| constructs a line from two points
+-}
+lineFromPoints : Point -> Point -> Maybe Line
 lineFromPoints (BeltramiCoord b1) (BeltramiCoord b2) =
     Internal.lineToGeneralForm ( b1, b2 )
         |> Internal.intersectLineWithUnitCircle
@@ -150,12 +196,16 @@ lineFromPoints (BeltramiCoord b1) (BeltramiCoord b2) =
             )
 
 
+{-| Convert a line segment into a line
+-}
 lineFromLineSegment : LineSegment -> Maybe Line
 lineFromLineSegment ( p1, p2 ) =
     lineFromPoints p1 p2
 
 
-lineFromHyperIdealPointThrough : BeltramiCoord -> HyperIdealPoint -> Maybe Line
+{-| Construct a line using an hyper ideal point
+-}
+lineFromHyperIdealPointThrough : Point -> HyperIdealPoint -> Maybe Line
 lineFromHyperIdealPointThrough p (HyperIdealPoint h) =
     lineFromPoints p (BeltramiCoord h)
 
@@ -184,7 +234,7 @@ poleOfLine ( i1, i2 ) =
 
 {-| reflect a point by a line
 -}
-reflectBy : Line -> BeltramiCoord -> BeltramiCoord
+reflectBy : Line -> Point -> Point
 reflectBy line p0 =
     perpendicularLineThrough p0 line
         |> Maybe.andThen (intersectLines line)
@@ -199,7 +249,7 @@ reflectBy line p0 =
 
 {-| Point as to lie on the line
 -}
-perpendicularLineThrough : BeltramiCoord -> Line -> Maybe Line
+perpendicularLineThrough : Point -> Line -> Maybe Line
 perpendicularLineThrough (BeltramiCoord p) line =
     case poleOfLine line of
         Just (HyperIdealPoint pole) ->
@@ -220,7 +270,9 @@ perpendicularLineThrough (BeltramiCoord p) line =
                 (BeltramiCoord p)
 
 
-nearestIdealPointOf : Line -> BeltramiCoord -> IdealPoint
+{-| return the nearest ideal point of a line from a given point
+-}
+nearestIdealPointOf : Line -> Point -> IdealPoint
 nearestIdealPointOf ( i1, i2 ) (BeltramiCoord p) =
     let
         (BeltramiCoord p1) =
@@ -236,7 +288,9 @@ nearestIdealPointOf ( i1, i2 ) (BeltramiCoord p) =
         i2
 
 
-bisectorThrough : BeltramiCoord -> ( BeltramiCoord, BeltramiCoord ) -> Maybe Line
+{-| Construct a bisector through a point
+-}
+bisectorThrough : Point -> ( Point, Point ) -> Maybe Line
 bisectorThrough c ( a, b ) =
     Maybe.map2
         (\i1 i2 ->
@@ -252,7 +306,9 @@ bisectorThrough c ( a, b ) =
         |> Maybe.andThen (lineFromHyperIdealPointThrough c)
 
 
-midpointOfLine : Line -> BeltramiCoord
+{-| Construct the midpoint of a line
+-}
+midpointOfLine : Line -> Point
 midpointOfLine ( i1, i2 ) =
     let
         (BeltramiCoord ( x1, y1 )) =
@@ -265,7 +321,9 @@ midpointOfLine ( i1, i2 ) =
         |> BeltramiCoord
 
 
-midpointOfLineSegment : LineSegment -> Maybe BeltramiCoord
+{-| Get the midpoint of a line segment
+-}
+midpointOfLineSegment : LineSegment -> Maybe Point
 midpointOfLineSegment ( p1, p2 ) =
     lineFromPoints p1 p2
         |> Maybe.andThen
@@ -282,7 +340,7 @@ midpointOfLineSegment ( p1, p2 ) =
 
 {-| Two lines may intersect at exactly one point
 -}
-intersectLines : Line -> Line -> Maybe BeltramiCoord
+intersectLines : Line -> Line -> Maybe Point
 intersectLines l1 l2 =
     let
         ( BeltramiCoord p1, BeltramiCoord p2 ) =
@@ -295,7 +353,9 @@ intersectLines l1 l2 =
         |> Maybe.map BeltramiCoord
 
 
-pointsAlongLineSegment : Int -> LineSegment -> List BeltramiCoord
+{-| Constructs a given amount of point along a line segment
+-}
+pointsAlongLineSegment : Int -> LineSegment -> List Point
 pointsAlongLineSegment n ( BeltramiCoord ( x1, y1 ), BeltramiCoord ( x2, y2 ) ) =
     let
         vecX =
@@ -310,7 +370,9 @@ pointsAlongLineSegment n ( BeltramiCoord ( x1, y1 ), BeltramiCoord ( x2, y2 ) ) 
         |> List.map BeltramiCoord
 
 
-pointsAlongLine : Int -> Line -> List BeltramiCoord
+{-| Constructs a given amount of point along a line
+-}
+pointsAlongLine : Int -> Line -> List Point
 pointsAlongLine n ( i1, i2 ) =
     pointsAlongLineSegment n ( unsafeFromIdealPoint i1, unsafeFromIdealPoint i2 )
 
@@ -321,14 +383,16 @@ pointsAlongLine n ( i1, i2 ) =
 ------------------------------------------------------------------------------------------
 
 
-{-| creates a vector from two points. The length of the vector
+{-| Creates a vector from two points. The length of the vector
 -}
-vectorTo : PoincareVector -> PoincareVector -> PoincareVector
+vectorTo : Gyrovector -> Gyrovector -> Gyrovector
 vectorTo p2 p1 =
     p2 |> negate |> add p1
 
 
-scaleBy : Float -> PoincareVector -> PoincareVector
+{-| scale a vector by a factor
+-}
+scaleBy : Float -> Gyrovector -> Gyrovector
 scaleBy a (PoincareVector x) =
     --https://andbloch.github.io/K-Stereographic-Model/
     --kappa = -1
@@ -341,19 +405,19 @@ scaleBy a (PoincareVector x) =
         |> PoincareVector
 
 
-rotateClockwise : Float -> PoincareVector -> PoincareVector
+{-| Rotate the vector clockwise
+-}
+rotateClockwise : Float -> Gyrovector -> Gyrovector
 rotateClockwise amount (PoincareVector ( x, y )) =
-    {--toPolar v
-        |> Tuple.mapSecond ((+) amount)
-        |> fromPolar
-        |> PoincareVector--}
     ( x * cos amount - y * sin amount
     , x * sin amount + y * cos amount
     )
         |> PoincareVector
 
 
-rotatePointClockwise : Float -> BeltramiCoord -> BeltramiCoord
+{-| Rotate a point clockwise around the origin
+-}
+rotatePointClockwise : Float -> Point -> Point
 rotatePointClockwise amount (BeltramiCoord ( x, y )) =
     --https://en.wikipedia.org/wiki/Rotation_matrix#:~:text=To%20perform%20the%20rotation%20on,the%20trigonometric%20summation%20angle%20formulae.
     ( x * cos amount - y * sin amount
@@ -362,32 +426,18 @@ rotatePointClockwise amount (BeltramiCoord ( x, y )) =
         |> BeltramiCoord
 
 
-setRotation : Float -> BeltramiCoord -> BeltramiCoord
-setRotation amount (BeltramiCoord v) =
-    toPolar v
-        |> Tuple.mapSecond (\_ -> amount)
-        |> fromPolar
-        |> BeltramiCoord
-
-
-rotateClockwiseAround : PoincareVector -> Float -> PoincareVector -> PoincareVector
-rotateClockwiseAround p amount p0 =
-    add
-        (p
-            |> vectorTo p0
-            |> rotateClockwise amount
-        )
-        p
-
-
-negate : PoincareVector -> PoincareVector
+{-| Negate a vector
+-}
+negate : Gyrovector -> Gyrovector
 negate (PoincareVector v) =
     v
         |> Internal.negate
         |> PoincareVector
 
 
-einsteinVelocityAddition : BeltramiCoord -> BeltramiCoord -> BeltramiCoord
+{-| Addition for Gyrovectors in the Beltrami Disc Model.
+-}
+einsteinVelocityAddition : Point -> Point -> Point
 einsteinVelocityAddition (BeltramiCoord b) (BeltramiCoord a) =
     --https://en.wikipedia.org/wiki/Gyrovector_space
     let
@@ -410,26 +460,9 @@ einsteinVelocityAddition (BeltramiCoord b) (BeltramiCoord a) =
         |> BeltramiCoord
 
 
-
-{--Internal.plus a b
-        |> Internal.scaleBy (1 / (1 + product))
-        |> Internal.plus
-            ((a
-                |> Internal.scaleBy product
-                |> Internal.minus
-                    (b
-                        |> Internal.scaleBy lengthSquared
-                    )
-             )
-                |> Internal.scaleBy (1 / ((1 + norm) * (1 + product)))
-            )
-        |> BeltramiCoord
-        --}
-
-
 {-| Using the Möbius Addition to add two vectors in the poincare disc
 -}
-add : PoincareVector -> PoincareVector -> PoincareVector
+add : Gyrovector -> Gyrovector -> Gyrovector
 add (PoincareVector v) (PoincareVector u) =
     --https://en.wikipedia.org/wiki/Gyrovector_space#Beltrami%E2%80%93Klein_disc/ball_model_and_Einstein_addition
     --s = 1
@@ -454,15 +487,9 @@ add (PoincareVector v) (PoincareVector u) =
         |> PoincareVector
 
 
-translateBy : PoincareVector -> BeltramiCoord -> BeltramiCoord
-translateBy v p =
-    p
-        |> toPoincareVector
-        |> add v
-        |> fromPoincareVector
-
-
-length : PoincareVector -> Float
+{-| Return the length of a vector
+-}
+length : Gyrovector -> Float
 length (PoincareVector v) =
     v
         |> Internal.length
@@ -477,8 +504,9 @@ length (PoincareVector v) =
 ------------------------------------------------------------------------------------------
 
 
-{-| -}
-fromPolarCoords : { radius : Float, angle : Float } -> BeltramiCoord
+{-| Constructs a point using polar coordinates.
+-}
+fromPolarCoords : { radius : Float, angle : Float } -> Point
 fromPolarCoords args =
     --https://en.wikipedia.org/wiki/Coordinate_systems_for_the_hyperbolic_plane
     Tuple.pair
@@ -493,7 +521,7 @@ However, you can not expect the proportions to stay the same.
 Points further out experience more distortion.
 
 -}
-projectFromEuclideanSpace : ( Float, Float ) -> BeltramiCoord
+projectFromEuclideanSpace : ( Float, Float ) -> Point
 projectFromEuclideanSpace ( x, y ) =
     toPolar ( x, y )
         |> (\( radius, angle ) -> fromPolarCoords { radius = radius, angle = angle })
@@ -501,26 +529,30 @@ projectFromEuclideanSpace ( x, y ) =
 
 {-| Converts Beltrami Coordinates into [Axial coordinates](https://en.wikipedia.org/wiki/Coordinate_systems_for_the_hyperbolic_plane#Axial_coordinates).
 -}
-unsafeFromAxialCoord : ( Float, Float ) -> BeltramiCoord
+unsafeFromAxialCoord : ( Float, Float ) -> Point
 unsafeFromAxialCoord ( x, y ) =
     BeltramiCoord ( tanh x, tanh y )
 
 
 {-| Converts [Axial coordinates](https://en.wikipedia.org/wiki/Coordinate_systems_for_the_hyperbolic_plane#Axial_coordinates) into Beltrami Coordinates.
 -}
-unsafeToAxialCoord : BeltramiCoord -> Maybe ( Float, Float )
+unsafeToAxialCoord : Point -> Maybe ( Float, Float )
 unsafeToAxialCoord (BeltramiCoord ( x, y )) =
     Maybe.map2 Tuple.pair
         (artanh x)
         (artanh y)
 
 
-projectOntoBeltramiKleinDisc : BeltramiCoord -> ( Float, Float )
+{-| Project Hyperbolic points to the Beltrami klein disc
+-}
+projectOntoBeltramiKleinDisc : Point -> ( Float, Float )
 projectOntoBeltramiKleinDisc (BeltramiCoord p) =
     p
 
 
-toPoincareVector : BeltramiCoord -> PoincareVector
+{-| convert a point into a vector
+-}
+toPoincareVector : Point -> Gyrovector
 toPoincareVector (BeltramiCoord s) =
     --https://en.wikipedia.org/wiki/Beltrami%E2%80%93Klein_model
     let
@@ -532,7 +564,9 @@ toPoincareVector (BeltramiCoord s) =
         |> PoincareVector
 
 
-fromPoincareVector : PoincareVector -> BeltramiCoord
+{-| convert a vector into a point
+-}
+fromPoincareVector : Gyrovector -> Point
 fromPoincareVector (PoincareVector u) =
     --https://en.wikipedia.org/wiki/Beltrami%E2%80%93Klein_model
     u
@@ -540,38 +574,46 @@ fromPoincareVector (PoincareVector u) =
         |> BeltramiCoord
 
 
-projectOntoPoincareDisc : BeltramiCoord -> ( Float, Float )
+{-| Project Hyperbolic points to the Poincare disc
+-}
+projectOntoPoincareDisc : Point -> ( Float, Float )
 projectOntoPoincareDisc p =
     p
         |> toPoincareVector
         |> (\(PoincareVector s) -> s)
 
 
+{-| -}
 unsafeHyperIdealPointToRecord : HyperIdealPoint -> { x : Float, y : Float }
 unsafeHyperIdealPointToRecord (HyperIdealPoint ( x, y )) =
     { x = x, y = y }
 
 
-unsafeFromIdealPoint : IdealPoint -> BeltramiCoord
+{-| -}
+unsafeFromIdealPoint : IdealPoint -> Point
 unsafeFromIdealPoint (IdealPoint angle1) =
     ( 1, angle1 ) |> fromPolar |> BeltramiCoord
 
 
-unsafeFromRecord : { x : Float, y : Float } -> BeltramiCoord
+{-| -}
+unsafeFromRecord : { x : Float, y : Float } -> Point
 unsafeFromRecord { x, y } =
     BeltramiCoord ( x, y )
 
 
-unsafePoincareVectorFromRecord : { x : Float, y : Float } -> PoincareVector
+{-| -}
+unsafePoincareVectorFromRecord : { x : Float, y : Float } -> Gyrovector
 unsafePoincareVectorFromRecord { x, y } =
     PoincareVector ( x, y )
 
 
-unsafeToRecord : BeltramiCoord -> { x : Float, y : Float }
+{-| -}
+unsafeToRecord : Point -> { x : Float, y : Float }
 unsafeToRecord (BeltramiCoord ( x, y )) =
     { x = x, y = y }
 
 
-unsafePoincareVectorToRecord : PoincareVector -> { x : Float, y : Float }
+{-| -}
+unsafePoincareVectorToRecord : Gyrovector -> { x : Float, y : Float }
 unsafePoincareVectorToRecord (PoincareVector ( x, y )) =
     { x = x, y = y }

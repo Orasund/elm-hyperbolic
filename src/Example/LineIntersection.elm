@@ -6,7 +6,7 @@ import Canvas.Settings
 import Color
 import Html exposing (Html)
 import Html.Attributes exposing (size)
-import Hyperbolic exposing (BeltramiCoord, IdealPoint, Line)
+import Hyperbolic exposing (IdealPoint, Line, Point)
 import Internal
 import Svg
 import Svg.Attributes
@@ -79,7 +79,7 @@ init () =
     )
 
 
-newPoint : Line -> Maybe ( BeltramiCoord, IdealPoint )
+newPoint : Line -> Maybe ( Point, IdealPoint )
 newPoint line =
     line
         |> Hyperbolic.perpendicularLineThrough (Hyperbolic.unsafeFromIdealPoint (Hyperbolic.pointAtInfinity 0))
@@ -167,7 +167,7 @@ viewAsCanvas list =
         |> Canvas.toHtml ( size, size ) []
 
 
-euclideanDistance : BeltramiCoord -> BeltramiCoord -> Float
+euclideanDistance : Point -> Point -> Float
 euclideanDistance p1 p2 =
     Internal.distance
         (Hyperbolic.projectOntoBeltramiKleinDisc p1)
