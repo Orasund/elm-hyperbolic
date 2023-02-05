@@ -1,8 +1,8 @@
 module Hyperbolic exposing
     ( Point, origin, pointAtInfinity, pointsAreEqual, distanceTo, distanceToOrigin, discFillingPolygon
-    , Line, IdealPoint, HyperIdealPoint, LineSegment, poleOfLine, lineFromIdealPoints, lineSectionTo, lineFromPoints, lineFromLineSegment, midpointOfLine, midpointOfLineSegment, lineFromHyperIdealPointThrough, perpendicularLineThrough, intersectLines, bisectorThrough, reflectBy
+    , Line, IdealPoint, HyperIdealPoint, LineSegment, poleOfLine, lineFromIdealPoints, lineSectionTo, lineFromPoints, lineFromLineSegment, midpointOfLine, midpointOfLineSegment, lineFromHyperIdealPointThrough, perpendicularLineThrough, intersectLines, bisectorThrough, reflectBy, nearestIdealPointOf
     , Gyrovector, vectorTo, negate, add, length, einsteinVelocityAddition, rotateClockwise, rotatePointClockwise, scaleBy
-    , pointsAlongLine, pointsAlongLineSegment, fromPolarCoords, projectFromEuclideanSpace, projectOntoBeltramiKleinDisc, projectOntoPoincareDisc
+    , pointsAlongLine, pointsAlongLineSegment, fromPolarCoords, projectFromEuclideanSpace, projectOntoBeltramiKleinDisc, projectOntoPoincareDisc, toPoincareVector, fromPoincareVector
     , unsafeFromAxialCoord, unsafeFromIdealPoint, unsafeFromRecord, unsafeHyperIdealPointToRecord, unsafePoincareVectorFromRecord, unsafePoincareVectorToRecord, unsafeToAxialCoord, unsafeToRecord
     )
 
@@ -17,7 +17,7 @@ Checkout [the doc for examples](https://orasund.github.io/elm-hyperbolic).
 
 # Lines And Line Segments
 
-@docs Line, IdealPoint, HyperIdealPoint, LineSegment, poleOfLine, lineFromIdealPoints, lineSectionTo, lineFromPoints, lineFromLineSegment, midpointOfLine, midpointOfLineSegment, lineFromHyperIdealPointThrough, perpendicularLineThrough, intersectLines, bisectorThrough, reflectBy
+@docs Line, IdealPoint, HyperIdealPoint, LineSegment, poleOfLine, lineFromIdealPoints, lineSectionTo, lineFromPoints, lineFromLineSegment, midpointOfLine, midpointOfLineSegment, lineFromHyperIdealPointThrough, perpendicularLineThrough, intersectLines, bisectorThrough, reflectBy, nearestIdealPointOf
 
 
 # Gyrovectors
@@ -27,7 +27,7 @@ Checkout [the doc for examples](https://orasund.github.io/elm-hyperbolic).
 
 # Convertion
 
-@docs pointsAlongLine, pointsAlongLineSegment, fromPolarCoords, projectFromEuclideanSpace, projectOntoBeltramiKleinDisc, projectOntoPoincareDisc
+@docs pointsAlongLine, pointsAlongLineSegment, fromPolarCoords, projectFromEuclideanSpace, projectOntoBeltramiKleinDisc, projectOntoPoincareDisc, toPoincareVector, fromPoincareVector
 
 
 # Advanced

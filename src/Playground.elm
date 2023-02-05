@@ -1,12 +1,11 @@
-module Test exposing (..)
+module Playground exposing (..)
 
 import Browser exposing (Document)
 import Canvas
 import Canvas.Settings
 import Color
 import Html exposing (Html)
-import Html.Attributes exposing (size)
-import Hyperbolic exposing (Gyrovector, IdealPoint, Line, LineSegment, Point, Vector)
+import Hyperbolic exposing (Gyrovector, Point)
 import Internal
 import Svg
 import Svg.Attributes

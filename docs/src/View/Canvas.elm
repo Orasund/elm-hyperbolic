@@ -13,7 +13,10 @@ euclidean list =
         size =
             200
     in
-    list
+    [ Canvas.rect ( 0, 0 ) size size
+        |> List.singleton
+        |> Canvas.shapes [ Canvas.Settings.fill Color.white ]
+    , list
         |> List.map
             (\( x, y ) ->
                 ( x * (size / 2) + size / 2
@@ -22,7 +25,7 @@ euclidean list =
             )
         |> List.map (\p -> Canvas.circle p 1)
         |> Canvas.shapes [ Canvas.Settings.fill Color.black ]
-        |> List.singleton
+    ]
         |> Canvas.toHtml ( size, size ) []
         |> Layout.el Layout.centered
 
@@ -33,7 +36,10 @@ hyperbolic list =
         size =
             200
     in
-    [ list
+    [ Canvas.rect ( 0, 0 ) size size
+        |> List.singleton
+        |> Canvas.shapes [ Canvas.Settings.fill Color.white ]
+    , list
         |> List.map
             (\( x, y ) ->
                 ( x * (size / 2) + size / 2

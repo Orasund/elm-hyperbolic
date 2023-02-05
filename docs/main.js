@@ -5397,6 +5397,14 @@ var $joakin$elm_canvas$Canvas$Settings$fill = function (color) {
 		$joakin$elm_canvas$Canvas$Internal$Canvas$Fill(color));
 };
 var $avh4$elm_color$Color$gray = A4($avh4$elm_color$Color$RgbaSpace, 211 / 255, 215 / 255, 207 / 255, 1.0);
+var $joakin$elm_canvas$Canvas$Internal$Canvas$Rect = F3(
+	function (a, b, c) {
+		return {$: 'Rect', a: a, b: b, c: c};
+	});
+var $joakin$elm_canvas$Canvas$rect = F3(
+	function (pos, width, height) {
+		return A3($joakin$elm_canvas$Canvas$Internal$Canvas$Rect, pos, width, height);
+	});
 var $joakin$elm_canvas$Canvas$Internal$Canvas$DrawableShapes = function (a) {
 	return {$: 'DrawableShapes', a: a};
 };
@@ -5523,6 +5531,10 @@ var $joakin$elm_canvas$Canvas$shapes = F2(
 					drawable: $joakin$elm_canvas$Canvas$Internal$Canvas$DrawableShapes(ss)
 				}));
 	});
+var $elm$core$List$singleton = function (value) {
+	return _List_fromArray(
+		[value]);
+};
 var $joakin$elm_canvas$Canvas$Settings$stroke = function (color) {
 	return $joakin$elm_canvas$Canvas$Internal$Canvas$SettingDrawOp(
 		$joakin$elm_canvas$Canvas$Internal$Canvas$Stroke(color));
@@ -6379,6 +6391,7 @@ var $joakin$elm_canvas$Canvas$toHtml = F3(
 			attrs,
 			entities);
 	});
+var $avh4$elm_color$Color$white = A4($avh4$elm_color$Color$RgbaSpace, 255 / 255, 255 / 255, 255 / 255, 1.0);
 var $author$project$View$Canvas$hyperbolic = function (list) {
 	var size = 200;
 	return A2(
@@ -6390,6 +6403,18 @@ var $author$project$View$Canvas$hyperbolic = function (list) {
 			_List_Nil,
 			_List_fromArray(
 				[
+					A2(
+					$joakin$elm_canvas$Canvas$shapes,
+					_List_fromArray(
+						[
+							$joakin$elm_canvas$Canvas$Settings$fill($avh4$elm_color$Color$white)
+						]),
+					$elm$core$List$singleton(
+						A3(
+							$joakin$elm_canvas$Canvas$rect,
+							_Utils_Tuple2(0, 0),
+							size,
+							size))),
 					A2(
 					$joakin$elm_canvas$Canvas$shapes,
 					_List_fromArray(
@@ -7044,10 +7069,6 @@ var $author$project$Chapter$HyperbolicModels$beltramiLines = $author$project$Vie
 					$elm$core$List$map,
 					A2($elm$core$Tuple$mapBoth, $author$project$Hyperbolic$projectFromEuclideanSpace, $author$project$Hyperbolic$projectFromEuclideanSpace),
 					$author$project$Chapter$HyperbolicModels$grid)))));
-var $elm$core$List$singleton = function (value) {
-	return _List_fromArray(
-		[value]);
-};
 var $author$project$View$Canvas$euclidean = function (list) {
 	var size = 200;
 	return A2(
@@ -7057,8 +7078,21 @@ var $author$project$View$Canvas$euclidean = function (list) {
 			$joakin$elm_canvas$Canvas$toHtml,
 			_Utils_Tuple2(size, size),
 			_List_Nil,
-			$elm$core$List$singleton(
-				A2(
+			_List_fromArray(
+				[
+					A2(
+					$joakin$elm_canvas$Canvas$shapes,
+					_List_fromArray(
+						[
+							$joakin$elm_canvas$Canvas$Settings$fill($avh4$elm_color$Color$white)
+						]),
+					$elm$core$List$singleton(
+						A3(
+							$joakin$elm_canvas$Canvas$rect,
+							_Utils_Tuple2(0, 0),
+							size,
+							size))),
+					A2(
 					$joakin$elm_canvas$Canvas$shapes,
 					_List_fromArray(
 						[
@@ -7076,7 +7110,8 @@ var $author$project$View$Canvas$euclidean = function (list) {
 								var y = _v0.b;
 								return _Utils_Tuple2((x * (size / 2)) + (size / 2), (y * (size / 2)) + (size / 2));
 							},
-							list))))));
+							list)))
+				])));
 };
 var $author$project$Chapter$HyperbolicModels$euclideanCoords = function () {
 	var pointsPerLine = 100;
